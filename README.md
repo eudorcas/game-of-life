@@ -7,6 +7,6 @@ evolution in time.
 
 
 ### Used technologies:
--JS,
--HTML,
--CSS
+- JS,
+- HTML,
+- CSS
