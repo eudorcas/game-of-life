@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #cccccc;
+}
+
+#board div {
+  width: 10px;
+  height: 10px;
+  border: 1px solid #cccccc;
+  background-color: #ffffff;
+  float: left;
+}
+
+#board div.live {
+  background-color: #000000;
+}
+
+#board {
+  margin: 50px auto 0;
+  min-height: 100px;
+  min-width: 100px
+}
+
+#game-menu {
+  margin: 50px auto;
+  width: auto;
+}
