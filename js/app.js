@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function (event){
     function GameOfLife (boardWidth, boardHeight) {
         this.width = boardWidth;
         this.height = boardHeight;
-        this.board = document.getElementById("board");
+        this.board = document.querySelector(".board");
         this.cells = []; //empty array for all cells
 
         //Creating a board
@@ -23,11 +23,6 @@ document.addEventListener("DOMContentLoaded", function (event){
                 this.cells[j].addEventListener("click", function (e) {
                     this.classList.toggle("live");
                 });
-                //I don't know, why this loop doesn't work... I left it here to clear it later with somebody...
-                /*this.cells.forEach(function (element) {
-                   element.addEventListener("click", function (e) {
-                       this.classList.toggle("live");
-                   }); */
             }
 
         };
@@ -47,15 +42,14 @@ document.addEventListener("DOMContentLoaded", function (event){
             }
         };
 
-        //Creating a glider
-        this.firstGlider = function () {
-            this.setCellState(1, 0, "live");
-            this.setCellState(2, 1, "live");
-            this.setCellState(0, 2, "live");
-            this.setCellState(1, 2, "live");
-            this.setCellState(2, 2, "live");
-
-
+        //Creating a glider with random position
+        this.addGlider = function () {
+            var randomNumber = Math.floor(Math.random()*this.height-3)+3;
+            this.setCellState(randomNumber+1, randomNumber, "live");
+            this.setCellState(randomNumber+2, randomNumber+1, "live");
+            this.setCellState(randomNumber, randomNumber+2, "live");
+            this.setCellState(randomNumber+1, randomNumber+2, "live");
+            this.setCellState(randomNumber+2, randomNumber+2, "live");
 
         };
 
@@ -98,9 +92,6 @@ document.addEventListener("DOMContentLoaded", function (event){
                     alive++;
                 }
             }
-
-
-
 
             if (!this.cells[this.countIndex(x,y)].classList.contains("live") && alive===3) {
                 return 1;
@@ -145,9 +136,17 @@ document.addEventListener("DOMContentLoaded", function (event){
 
 
         };
-        var playBtn = document.getElementById("play");
-        var pauseBtn = document.getElementById("pause");
         var self = this;
+
+        //An event for button creating a glider
+        var gliderBtn = document.querySelector(".add-glider");
+        gliderBtn.addEventListener("click", function (e) {
+            self.addGlider();
+        });
+
+        //Setting cells life cycle interval
+        var playBtn = document.querySelector(".play");
+        var pauseBtn = document.querySelector(".pause");
         this.interval = undefined;
         var started = false;
         playBtn.addEventListener("click", function (e) {
@@ -157,7 +156,6 @@ document.addEventListener("DOMContentLoaded", function (event){
                 self.interval = setInterval(function () {
                     self.computeNextGeneration();
                     self.printNextGeneration();
-                    console.log("działam")
                 }, 1000);
                 started = true;
 
@@ -172,33 +170,43 @@ document.addEventListener("DOMContentLoaded", function (event){
 
         });
 
+
         this.start = function () {
             this.createBoard();
-            this.firstGlider();
-        }
+            this.addGlider();
 
+        };
 
-
+        //Clearing the board
+        var clearB = document.querySelector(".clear-board");
+        clearB.addEventListener("click", function(e) {
+            for(var i=0; i<self.cells.length; i++){
+                self.cells[i].classList.remove("live");
+            }
+            if (self.interval!==undefined) {
+                clearInterval(self.interval);
+                started=false;
+            }
+        })
 
     }
 
-    var bWidth = document.getElementById("width");
-    var bHeight = document.getElementById("height");
-    var playB = document.getElementById("play");
-    var clicked = false;
+    var bWidth = document.querySelector(".width");
+    var bHeight = document.querySelector(".height");
+    var startB = document.querySelector(".start");
 
+    var startSection = document.querySelector(".game-start");
+    var gameSection = document.querySelector(".game");
 
-    playB.addEventListener("click", function (e) {
-        if (clicked === false ) {
-            var game = new GameOfLife(bWidth.value, bHeight.value);
-            game.start();
-            clicked = true;
+    gameSection.style.display="none";
 
-        }
-
+    startB.addEventListener("click", function (e) {
+        startSection.style.display = "none";
+        gameSection.style.display = "block";
+        var game = new GameOfLife(bWidth.value, bHeight.value);
+        game.start();
 
     });
-
 
 
 });

@@ -1,5 +1,7 @@
 * {
   box-sizing: border-box;
+  font-family: 'Permanent Marker', cursive;
+
 }
 
 body {
@@ -8,7 +10,86 @@ body {
   background-color: #cccccc;
 }
 
-#board div {
+.game-start {
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background-color: #ccc;
+  color: black;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-start h1{
+  font-size: 100px;
+  margin: 20px auto 70px auto;
+}
+
+.start-image {
+  margin-bottom: 50px;
+  height: 160px;
+  width: 160px;
+}
+
+.game-form {
+  margin: 40px;
+  padding: 40px;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  border: 7px solid #000;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px;
+
+}
+
+.game-form input {
+  font-size: 20px;
+  background: none;
+  outline: none;
+  border: 3px solid black;
+
+}
+
+button {
+  background: none;
+  outline: none;
+  border: solid 4px transparent;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px;
+  transition: 0.2s;
+}
+
+button:hover {
+  border-color: #000;
+  cursor: pointer;
+  background: #fff;
+}
+
+
+
+.game-start .start {
+  margin-top: 20px;
+  font-size: 30px;
+}
+
+.game-menu {
+  margin: 20px auto 50px auto;
+  max-width: 1000px;
+  border: 7px solid #000;
+  border-radius: 255px 15px 225px 15px/15px 225px 15px;
+  text-align: center;
+}
+.game-menu button {
+  font-size: 20px;
+  margin: 20px;
+  padding: 10px 20px;
+
+
+}
+
+.board div {
   width: 10px;
   height: 10px;
   border: 1px solid #cccccc;
@@ -16,17 +97,12 @@ body {
   float: left;
 }
 
-#board div.live {
+.board div.live {
   background-color: #000000;
 }
 
-#board {
+.board {
   margin: 50px auto 0;
   min-height: 100px;
   min-width: 100px
-}
-
-#game-menu {
-  margin: 50px auto;
-  width: auto;
 }
