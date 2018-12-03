@@ -45,6 +45,10 @@ body {
 
 }
 
+p.info {
+  font-size: 16px;
+}
+
 .game-form input {
   font-size: 20px;
   background: none;

@@ -1,6 +1,6 @@
-document.addEventListener("DOMContentLoaded", function (event){
+document.addEventListener("DOMContentLoaded", function (event) {
 
-    function GameOfLife (boardWidth, boardHeight) {
+    function GameOfLife(boardWidth, boardHeight) {
         this.width = boardWidth;
         this.height = boardHeight;
         this.board = document.querySelector(".board");
@@ -8,18 +8,18 @@ document.addEventListener("DOMContentLoaded", function (event){
 
         //Creating a board
 
-        this.createBoard = function() {
-            this.board.style.height = (this.height * 10) +"px"; // 10 - height of one div
+        this.createBoard = function () {
+            this.board.style.height = (this.height * 10) + "px"; // 10 - height of one div
             this.board.style.width = this.width * 10 + "px"; //10 - width of one div
             this.boardElements = this.height * this.width; // number of all cells
-            for (var i=0; i<this.boardElements; i++) {
+            for (var i = 0; i < this.boardElements; i++) {
                 var cell = document.createElement("div");
                 this.board.appendChild(cell);
             }
             this.cells = this.board.children;
 
             //Adding an event for all cells
-            for (var j=0; j<this.cells.length; j++) {
+            for (var j = 0; j < this.cells.length; j++) {
                 this.cells[j].addEventListener("click", function (e) {
                     this.classList.toggle("live");
                 });
@@ -28,13 +28,13 @@ document.addEventListener("DOMContentLoaded", function (event){
         };
 
         //Counting cell index
-        this.countIndex = function (x,y) {
-            return x + (y*this.width);
+        this.countIndex = function (x, y) {
+            return x + (y * this.width);
         };
 
         //Setting state for cells
         this.setCellState = function (x, y, state) {
-            if (state==="live") {
+            if (state === "live") {
                 this.cells[this.countIndex(x, y)].classList.add("live");
             }
             else {
@@ -44,59 +44,59 @@ document.addEventListener("DOMContentLoaded", function (event){
 
         //Creating a glider with random position
         this.addGlider = function () {
-            var randomNumber = Math.floor(Math.random()*this.height-3)+3;
-            this.setCellState(randomNumber+1, randomNumber, "live");
-            this.setCellState(randomNumber+2, randomNumber+1, "live");
-            this.setCellState(randomNumber, randomNumber+2, "live");
-            this.setCellState(randomNumber+1, randomNumber+2, "live");
-            this.setCellState(randomNumber+2, randomNumber+2, "live");
+            var randomNumber = Math.floor(Math.random() * this.height - 3) + 3;
+            this.setCellState(randomNumber + 1, randomNumber, "live");
+            this.setCellState(randomNumber + 2, randomNumber + 1, "live");
+            this.setCellState(randomNumber, randomNumber + 2, "live");
+            this.setCellState(randomNumber + 1, randomNumber + 2, "live");
+            this.setCellState(randomNumber + 2, randomNumber + 2, "live");
 
         };
 
         //Setting next state of cell by computing states of its neighbours
-        this.computeCellNextState = function (x,y) {
+        this.computeCellNextState = function (x, y) {
             var alive = 0;
             var neighbours = [];
-            if (x===0 && y!==0 && y!==this.height-1)  {
-                neighbours = [this.cells[this.countIndex(x, y-1)], this.cells[this.countIndex(x+1, y-1)], this.cells[this.countIndex(x+1, y)], this.cells[this.countIndex(x, y+1)], this.cells[this.countIndex(x+1, y+1)]];
+            if (x === 0 && y !== 0 && y !== this.height - 1) {
+                neighbours = [this.cells[this.countIndex(x, y - 1)], this.cells[this.countIndex(x + 1, y - 1)], this.cells[this.countIndex(x + 1, y)], this.cells[this.countIndex(x, y + 1)], this.cells[this.countIndex(x + 1, y + 1)]];
             }
-            else if (y===0 && x!==0 && x!==this.width-1) {
-                neighbours = [this.cells[this.countIndex(x+1, y)],this.cells[this.countIndex(x-1, y)], this.cells[this.countIndex(x-1, y+1)], this.cells[this.countIndex(x, y+1)], this.cells[this.countIndex(x+1, y+1)]];
+            else if (y === 0 && x !== 0 && x !== this.width - 1) {
+                neighbours = [this.cells[this.countIndex(x + 1, y)], this.cells[this.countIndex(x - 1, y)], this.cells[this.countIndex(x - 1, y + 1)], this.cells[this.countIndex(x, y + 1)], this.cells[this.countIndex(x + 1, y + 1)]];
             }
-            else if (y===0 && x===0) {
-                neighbours = [this.cells[this.countIndex(x+1, y)], this.cells[this.countIndex(x, y+1)], this.cells[this.countIndex(x+1, y+1)]];
+            else if (y === 0 && x === 0) {
+                neighbours = [this.cells[this.countIndex(x + 1, y)], this.cells[this.countIndex(x, y + 1)], this.cells[this.countIndex(x + 1, y + 1)]];
             }
-            else if (x===this.width-1 && y!==this.height-1 && y!==0) {
-                neighbours = [this.cells[this.countIndex(x-1, y-1)], this.cells[this.countIndex(x, y-1)], this.cells[this.countIndex(x-1, y)], this.cells[this.countIndex(x-1, y+1)], this.cells[this.countIndex(x, y+1)]];
+            else if (x === this.width - 1 && y !== this.height - 1 && y !== 0) {
+                neighbours = [this.cells[this.countIndex(x - 1, y - 1)], this.cells[this.countIndex(x, y - 1)], this.cells[this.countIndex(x - 1, y)], this.cells[this.countIndex(x - 1, y + 1)], this.cells[this.countIndex(x, y + 1)]];
             }
-            else if (y===this.height-1 && x!==this.width-1 && x!==0) {
-                neighbours = [this.cells[this.countIndex(x-1, y-1)], this.cells[this.countIndex(x, y-1)], this.cells[this.countIndex(x+1, y-1)], this.cells[this.countIndex(x-1, y)], this.cells[this.countIndex(x+1, y)]];
+            else if (y === this.height - 1 && x !== this.width - 1 && x !== 0) {
+                neighbours = [this.cells[this.countIndex(x - 1, y - 1)], this.cells[this.countIndex(x, y - 1)], this.cells[this.countIndex(x + 1, y - 1)], this.cells[this.countIndex(x - 1, y)], this.cells[this.countIndex(x + 1, y)]];
             }
-            else if (x===this.width-1 && y===this.height-1) {
-                neighbours = [this.cells[this.countIndex(x-1, y-1)], this.cells[this.countIndex(x, y-1)], this.cells[this.countIndex(x-1, y)]];
+            else if (x === this.width - 1 && y === this.height - 1) {
+                neighbours = [this.cells[this.countIndex(x - 1, y - 1)], this.cells[this.countIndex(x, y - 1)], this.cells[this.countIndex(x - 1, y)]];
             }
-            else if(x===0 && y===this.height-1) {
-                neighbours = [this.cells[this.countIndex(x, y-1)], this.cells[this.countIndex(x+1, y-1)], this.cells[this.countIndex(x+1, y)]];
+            else if (x === 0 && y === this.height - 1) {
+                neighbours = [this.cells[this.countIndex(x, y - 1)], this.cells[this.countIndex(x + 1, y - 1)], this.cells[this.countIndex(x + 1, y)]];
             }
-            else if (y===0 && x===this.width-1) {
-                neighbours = [this.cells[this.countIndex(x-1, y)], this.cells[this.countIndex(x-1, y+1)], this.cells[this.countIndex(x, y+1)]];
+            else if (y === 0 && x === this.width - 1) {
+                neighbours = [this.cells[this.countIndex(x - 1, y)], this.cells[this.countIndex(x - 1, y + 1)], this.cells[this.countIndex(x, y + 1)]];
             }
-            else if(x!==0 && y!==0 && x!==this.width-1 && y!==this.height-1) {
+            else if (x !== 0 && y !== 0 && x !== this.width - 1 && y !== this.height - 1) {
                 neighbours = [this.cells[this.countIndex(x - 1, y - 1)], this.cells [this.countIndex(x, y - 1)], this.cells[this.countIndex(x + 1, y - 1)], this.cells[this.countIndex(x - 1, y)], this.cells[this.countIndex(x + 1, y)], this.cells[this.countIndex(x - 1, y + 1)], this.cells[this.countIndex(x, y + 1)], this.cells[this.countIndex(x + 1, y + 1)]];
             }
 
 
             //Counting number of alive neighbours
-            for (var i=0; i<neighbours.length; i++) {
-                if(neighbours[i].classList.contains("live")) {
+            for (var i = 0; i < neighbours.length; i++) {
+                if (neighbours[i].classList.contains("live")) {
                     alive++;
                 }
             }
 
-            if (!this.cells[this.countIndex(x,y)].classList.contains("live") && alive===3) {
+            if (!this.cells[this.countIndex(x, y)].classList.contains("live") && alive === 3) {
                 return 1;
             }
-            else if (this.cells[this.countIndex(x,y)].classList.contains("live") && (alive===2 || alive===3)) {
+            else if (this.cells[this.countIndex(x, y)].classList.contains("live") && (alive === 2 || alive === 3)) {
                 return 1;
             }
             else {
@@ -121,13 +121,13 @@ document.addEventListener("DOMContentLoaded", function (event){
         };
         //Printing new states of cells
         this.printNextGeneration = function () {
-            for (var i=0; i<this.cells.length; i++) {
-                if (this.boardState[i]===1) {
+            for (var i = 0; i < this.cells.length; i++) {
+                if (this.boardState[i] === 1) {
                     this.cells[i].classList.add("live");
 
 
                 }
-                else if (this.boardState[i]===0) {
+                else if (this.boardState[i] === 0) {
                     this.cells[i].classList.remove("live");
 
 
@@ -179,13 +179,13 @@ document.addEventListener("DOMContentLoaded", function (event){
 
         //Clearing the board
         var clearB = document.querySelector(".clear-board");
-        clearB.addEventListener("click", function(e) {
-            for(var i=0; i<self.cells.length; i++){
+        clearB.addEventListener("click", function (e) {
+            for (var i = 0; i < self.cells.length; i++) {
                 self.cells[i].classList.remove("live");
             }
-            if (self.interval!==undefined) {
+            if (self.interval !== undefined) {
                 clearInterval(self.interval);
-                started=false;
+                started = false;
             }
         })
 
@@ -197,14 +197,22 @@ document.addEventListener("DOMContentLoaded", function (event){
 
     var startSection = document.querySelector(".game-start");
     var gameSection = document.querySelector(".game");
+    var gameForm = document.querySelector(".game-form");
+    var info = document.querySelector(".info");
 
-    gameSection.style.display="none";
+    gameSection.style.display = "none";
 
     startB.addEventListener("click", function (e) {
-        startSection.style.display = "none";
-        gameSection.style.display = "block";
-        var game = new GameOfLife(bWidth.value, bHeight.value);
-        game.start();
+        if (bWidth.value >= 10 && bHeight.value >= 10) {
+            startSection.style.display = "none";
+            gameSection.style.display = "block";
+            var game = new GameOfLife(bWidth.value, bHeight.value);
+            game.start();
+        }
+        else {
+            info.innerText = "Board's width and height must be min. 10";
+
+        }
 
     });
 
